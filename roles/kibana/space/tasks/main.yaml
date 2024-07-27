@@ -1,0 +1,87 @@
+- name: "Load Local Resource"
+  include_tasks: load.yaml
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Get Remote Resources"
+  include_tasks: get.yaml
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Setup Resources"
+  include_tasks: setup.yaml
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Delete Resources"
+  include_tasks: delete.yaml
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Create Resources"
+  include_tasks: create.yaml
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Update Resources"
+  include_tasks: update.yaml
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: "
+  include_tasks: data-views/main.yaml
+  with_items:
+    - "{{ resources_to_create }}"
+    - "{{ resources_to_update }}"
+  loop_control:
+     loop_var: space_name
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETTINGS: "
+  include_tasks: settings/main.yaml
+  with_items:
+    - "{{ resources_to_create }}"
+    - "{{ resources_to_update }}"
+  loop_control:
+     loop_var: space_name
+  tags:
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all

@@ -1,0 +1,52 @@
+---
+- name: "GET: Request"
+  register: fetched_resources
+  uri:
+    method: GET
+    url: "{{ kibana_endpoint }}/internal/security/users"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "GET: DEBUG: Request"
+  debug:
+    msg: "{{ fetched_resources.json }}"
+  when: fetched_resources.json is defined
+  tags:
+    - kibana-users-debug
+    - kibana-debug-all
+
+- name: "GET: Setup Empty Array"
+  set_fact:
+    fetched_resources_names: [ ]
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "GET: Parse Names"
+  set_fact:
+    fetched_resources_names: "{{ fetched_resources_names + [item.username] | default([]) }}"
+  with_items: "{{ fetched_resources.json }}"
+  when: (item.metadata._reserved is defined and item.metadata._reserved != True) or item.metadata._reserved is not defined
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "GET: DEBUG: Parse Names"
+  debug:
+    msg: "{{ fetched_resources_names }}"
+  tags:
+    - kibana-users-debug
+    - kibana-debug-all

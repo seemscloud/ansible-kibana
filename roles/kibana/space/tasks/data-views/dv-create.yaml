@@ -1,0 +1,22 @@
+---
+- name: "DATA VIEWS: CREATE: Request (Space: {{ space_name }})"
+  register: created_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/s/{{ space_name }}/api/data_views/data_view"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    timeout: 300
+    body: "{{ { 'data_view': kibana.spaces[space_name].data_views[item] | combine({'name' : item }) } }}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ dv_resources_to_create }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all

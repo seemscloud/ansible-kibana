@@ -1,0 +1,20 @@
+---
+- name: "SETTINGS: UPDATE: Request"
+  register: updated_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/s/{{ space_name }}/api/kibana/settings"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    body: "{\"changes\":{{ resources_data }}}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  when: resources_data
+  tags:
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all

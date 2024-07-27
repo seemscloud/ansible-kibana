@@ -1,0 +1,28 @@
+---
+- name: "INTEGRATION: LOAD: Setup Empty Array (Policy: {{ policy_name }})"
+  set_fact:
+    resources_names: [ ]
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: LOAD: Parse Names (Policy: {{ policy_name }})"
+  set_fact:
+    resources_names: "{{ item.keys() | default([]) }}"
+  when: kibana.agent_policies | length > 0
+  with_items:
+    - "{{ kibana.agent_policies[policy_name].integrations }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: LOAD: DEBUG: Parse Names (Policy: {{ policy_name }})"
+  debug:
+    msg: "{{ resources_names }}"
+  tags:
+    - kibana-integrations-debug
+    - kibana-debug-all

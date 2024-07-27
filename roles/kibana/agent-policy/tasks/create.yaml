@@ -1,0 +1,22 @@
+---
+- name: "CREATE: Request"
+  register: created_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/api/fleet/agent_policies"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    timeout: 300
+    body: "{{ kibana.agent_policies[item].settings | combine({'id': item}) }}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ resources_to_create }}"
+  tags:
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all

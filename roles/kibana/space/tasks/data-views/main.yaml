@@ -1,0 +1,47 @@
+- name: "DATA VIEWS: Load Local Resource"
+  include_tasks: dv-load.yaml
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: Get Remote Resources"
+  include_tasks: dv-get.yaml
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: Setup Resources"
+  include_tasks: dv-setup.yaml
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: Delete Resources"
+  include_tasks: dv-delete.yaml
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: Create Resources"
+  include_tasks: dv-create.yaml
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: Update Resources"
+  include_tasks: dv-update.yaml
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all

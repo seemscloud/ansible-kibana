@@ -1,0 +1,22 @@
+---
+- name: "INTEGRATION: DELETE: Request"
+  register: deleted_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/api/fleet/package_policies/delete"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    timeout: 300
+    body: '{"packagePolicyIds": ["{{ item.id }}"]}'
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ resources_to_delete }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all

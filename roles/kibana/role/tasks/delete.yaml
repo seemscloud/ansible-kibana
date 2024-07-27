@@ -1,0 +1,20 @@
+---
+- name: "DELETE: Request"
+  register: deleted_resources
+  uri:
+    method: DELETE
+    url: "{{ kibana_endpoint }}/api/security/role/{{ item }}"
+    status_code: [ 204 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ resources_to_delete }}"
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all

@@ -1,0 +1,43 @@
+---
+- name: "LOAD: Load Definitions"
+  include_vars:
+    file: "{{ resource_definitions_path }}"
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: DEBUG: Load Definitions"
+  debug:
+    msg: "{{ kibana.roles }}"
+  when: kibana.roles is defined
+  tags:
+    - kibana-roles-debug
+    - kibana-debug-all
+
+- name: "LOAD: Setup Empty Array"
+  set_fact:
+    resources_names: [ ]
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: Parse Names"
+  set_fact:
+    resources_names: "{{ kibana.roles.keys() | default([]) }}"
+  when: kibana.roles | length > 0
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: DEBUG: Parse Names"
+  debug:
+    msg: "{{ resources_names }}"
+  tags:
+    - kibana-roles-debug
+    - kibana-debug-all

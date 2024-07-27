@@ -1,0 +1,56 @@
+- name: "INTEGRATION: Working on"
+  debug:
+    msg: "Working on: {{ policy_name }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: Load Local Resource"
+  include_tasks: int-load.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: Get Remote Resources"
+  include_tasks: int-get.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: Setup Resources"
+  include_tasks: int-setup.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: Delete Resources"
+  include_tasks: int-delete.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: Create Resources"
+  include_tasks: int-create.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATION: Update Resources"
+  include_tasks: int-update.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all

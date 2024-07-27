@@ -1,0 +1,62 @@
+---
+- name: "DATA VIEWS: GET: Request (Space: {{ space_name }})"
+  register: fetched_resources
+  uri:
+    method: GET
+    url: "{{ kibana_endpoint }}/s/{{ space_name }}/api/data_views"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: GET: DEBUG: Request (Space: {{ space_name }})"
+  debug:
+    msg: "{{ fetched_resources.json.data_view }}"
+  when: fetched_resources.json is defined
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: GET: Setup Empty Array (Space: {{ space_name }})"
+  set_fact:
+    fetched_resources_names: [ ]
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: GET: Parse Names (Space: {{ space_name }})"
+  set_fact:
+    fetched_resources_names: "{{ fetched_resources_names | default([]) + [{'name': item.name, 'id': item.id}] }}"
+  with_items: "{{ fetched_resources.json.data_view }}"
+  when: fetched_resources.json.data_view is defined
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- debug:
+    msg: "{{ fetched_resources_names  }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: GET: DEBUG: Parse Names (Space: {{ space_name }})"
+  debug:
+    msg: "{{ fetched_resources_names }}"
+  tags:
+    - kibana-data-views-debug
+    - kibana-debug-all

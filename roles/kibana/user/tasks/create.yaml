@@ -1,0 +1,21 @@
+---
+- name: "CREATE: Request"
+  register: created_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/internal/security/users/{{ item }}"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    body: "{{ kibana.users[item] | combine({'username': item}, {'password': init_password}) }}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ resources_to_create }}"
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all

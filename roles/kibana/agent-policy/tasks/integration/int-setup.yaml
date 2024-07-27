@@ -1,0 +1,83 @@
+---
+- name: "SETUP: Update/Create/Delete Empty Arrays (Policy: {{ policy_name }})"
+  set_fact:
+    resources_to_update: [ ]
+    resources_to_create: [ ]
+    resources_to_delete: [ ]
+    tmp_resources_to_create: [ ]
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: To Update Resources (Policy: {{ policy_name }})"
+  set_fact:
+    resources_to_update: "{{ resources_to_update|default([]) + [item] }}"
+  with_items:
+    - "{{ fetched_resources_names }}"
+  when: item.name in resources_names
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: To Delete Resources (Policy: {{ policy_name }})"
+  set_fact:
+    resources_to_delete: "{{ resources_to_delete|default([]) + [item] }}"
+  with_items:
+    - "{{ fetched_resources_names }}"
+  when: item.name not in resources_names
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: Temporary To Create Resources (Policy: {{ policy_name }})"
+  set_fact:
+    tmp_resources_to_create: "{{ tmp_resources_to_create|default([]) + [item.name] }}"
+  with_items:
+    - "{{ fetched_resources_names  }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: To Create Difference Resources (Policy: {{ policy_name }})"
+  set_fact:
+    resources_to_create: "{{ resources_names | difference(tmp_resources_to_create) | list }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: Resources to Create (Policy: {{ policy_name }})"
+  debug:
+    msg: "{{ resources_to_create }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: Resources to Update (Policy: {{ policy_name }})"
+  debug:
+    msg: "{{ resources_to_update }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: Resources to Delete (Policy: {{ policy_name }})"
+  debug:
+    msg: "{{ resources_to_delete }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all

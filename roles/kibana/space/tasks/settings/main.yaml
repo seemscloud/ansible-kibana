@@ -1,0 +1,15 @@
+- name: "SETTINGS: Load Local Resource"
+  include_tasks: set-load.yaml
+  tags:
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETTINGS: Update Resources"
+  include_tasks: set-update.yaml
+  tags:
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all

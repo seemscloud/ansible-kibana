@@ -1,0 +1,83 @@
+---
+- name: "DATA VIEWS: SETUP: Update/Create/Delete Empty Arrays (Space: {{ space_name }})"
+  set_fact:
+    dv_resources_to_update: [ ]
+    dv_resources_to_create: [ ]
+    dv_resources_to_delete: [ ]
+    tmp_dv_resources_to_create: [ ]
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: To Update Resources (Space: {{ space_name }})"
+  set_fact:
+    dv_resources_to_update: "{{ dv_resources_to_update|default([]) + [item] }}"
+  with_items:
+    - "{{ fetched_resources_names }}"
+  when: item.name in resources_names
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: To Delete Resources (Space: {{ space_name }})"
+  set_fact:
+    dv_resources_to_delete: "{{ dv_resources_to_delete|default([]) + [item] }}"
+  with_items:
+    - "{{ fetched_resources_names }}"
+  when: item.name not in resources_names
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: Temporary To Create Resources (Space: {{ space_name }})"
+  set_fact:
+    tmp_dv_resources_to_create: "{{ tmp_dv_resources_to_create|default([]) + [item.name] }}"
+  with_items:
+    - "{{ fetched_resources_names  }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: To Create Difference Resources (Space: {{ space_name }})"
+  set_fact:
+    dv_resources_to_create: "{{ resources_names | difference(tmp_dv_resources_to_create) | list }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: Resources to Create (Space: {{ space_name }})"
+  debug:
+    msg: "{{ dv_resources_to_create }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: Resources to Update (Space: {{ space_name }})"
+  debug:
+    msg: "{{ dv_resources_to_update }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: SETUP: Resources to Delete (Space: {{ space_name }})"
+  debug:
+    msg: "{{ dv_resources_to_delete }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all

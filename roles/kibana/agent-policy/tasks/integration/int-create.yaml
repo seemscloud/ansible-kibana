@@ -1,0 +1,22 @@
+---
+- name: "INTEGRATION: CREATE: Request (Policy: {{ policy_name }})"
+  register: created_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/api/fleet/package_policies"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    timeout: 300
+    body: "{{ kibana.agent_policies[policy_name].integrations[item] | combine({'policy_id': policy_name}) | combine({'name': item}) | combine({'id': item}) }}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ resources_to_create }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all

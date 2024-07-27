@@ -1,0 +1,30 @@
+anachors:
+  kibana:
+    teamsEditor: &teamEditor
+      observabilityCases: [ "all" ]
+      uptime: [ "all" ]
+      apm: [ "all" ]
+      infrastructure: [ "all" ]
+      visualize: [ "all" ]
+      maps: [ "all" ]
+      canvas: [ "all" ]
+      dashboard: [ "all" ]
+      discover: [ "all" ]
+      savedObjectsTagging: [ "all" ]
+      logs: [ "all" ]
+      indexPatterns: [ "all" ]
+
+kibana:
+  roles:
+    seems-cloud:
+      elasticsearch:
+        cluster: [ "all" ]
+        indices:
+          - names: [ ".*", "*" ]
+            privileges: [ "all" ]
+            allow_restricted_indices: true
+        run_as: [ ]
+      kibana:
+        - spaces: [ "*" ]
+          base: [ "all" ]
+          feature: { }

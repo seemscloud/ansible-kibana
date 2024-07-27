@@ -1,0 +1,42 @@
+---
+- name: "SETUP: Difference / Intersect Resources"
+  set_fact:
+    resources_to_create: "{{ resources_names | difference(fetched_resources_names) | list }}"
+    resources_to_update: "{{ resources_names | intersect(fetched_resources_names) | list }}"
+    resources_to_delete: "{{ fetched_resources_names | difference(resources_names) | list }}"
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETUP: Resources to Create"
+  debug:
+    msg: "{{ resources_to_create }}"
+  tags:
+    - kibana-spaces-debug
+    - kibana-data-views-debug
+    - kibana-settings-debug
+    - kibana-debug-all
+
+- name: "SETUP: Resources to Update"
+  debug:
+    msg: "{{ resources_to_update }}"
+  tags:
+    - kibana-spaces-debug
+    - kibana-data-views-debug
+    - kibana-settings-debug
+    - kibana-debug-all
+
+- name: "SETUP: Resources to Delete"
+  debug:
+    msg: "{{ resources_to_delete }}"
+  tags:
+    - kibana-spaces-debug
+    - kibana-data-views-debug
+    - kibana-settings-debug
+    - kibana-debug-all

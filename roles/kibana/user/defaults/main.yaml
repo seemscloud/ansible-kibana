@@ -1,0 +1,1 @@
+resource_definitions_path: "../{{ config_dir }}/{{ config_env }}/users.yaml"

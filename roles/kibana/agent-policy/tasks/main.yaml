@@ -1,0 +1,66 @@
+- name: "Load Local Resource"
+  include_tasks: load.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Get Remote Resources"
+  include_tasks: get.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Setup Resources"
+  include_tasks: setup.yaml
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Delete Resources"
+  include_tasks: delete.yaml
+  tags:
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Create Resources"
+  include_tasks: create.yaml
+  tags:
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Update Resources"
+  include_tasks: update.yaml
+  tags:
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "INTEGRATIONS: "
+  include_tasks: integration/main.yaml
+  with_items:
+    - "{{ resources_to_create }}"
+    - "{{ resources_to_update }}"
+  loop_control:
+     loop_var: policy_name
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-run-all
+    - kibana-debug-all

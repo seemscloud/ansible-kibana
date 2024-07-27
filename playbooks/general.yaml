@@ -1,0 +1,56 @@
+---
+- hosts: example
+  gather_facts: false
+
+  tasks:
+    - include_role:
+        name: ../roles/details
+      tags:
+        - kibana-spaces-run
+        - kibana-spaces-debug
+        - kibana-data-views-run
+        - kibana-data-views-debug
+        - kibana-roles-run
+        - kibana-roles-debug
+        - kibana-users-run
+        - kibana-users-debug
+        - kibana-integrations-run
+        - kibana-integrations-debug
+        - kibana-agent-policies-run
+        - kibana-agent-policies-debug
+        - kibana-run-all
+        - kibana-debug-all
+    - include_role:
+        name: ../roles/kibana/space
+      tags:
+        - kibana-spaces-run
+        - kibana-spaces-debug
+        - kibana-data-views-run
+        - kibana-data-views-debug
+        - kibana-settings-run
+        - kibana-settings-debug
+        - kibana-debug-all
+        - kibana-run-all
+    - include_role:
+        name: ../roles/kibana/role
+      tags:
+        - kibana-roles-run
+        - kibana-roles-debug
+        - kibana-debug-all
+        - kibana-run-all
+    - include_role:
+        name: ../roles/kibana/user
+      tags:
+        - kibana-users-run
+        - kibana-users-debug
+        - kibana-debug-all
+        - kibana-run-all
+    - include_role:
+        name: ../roles/kibana/agent-policy
+      tags:
+        - kibana-integrations-run
+        - kibana-integrations-debug
+        - kibana-agent-policies-run
+        - kibana-agent-policies-debug
+        - kibana-debug-all
+        - kibana-run-all

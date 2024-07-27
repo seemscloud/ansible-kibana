@@ -1,0 +1,22 @@
+---
+- name: "DATA VIEWS: UPDATE: Request (Space: {{ space_name }})"
+  register: updated_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/s/{{ space_name }}/api/data_views/data_view/{{ item.id }}"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    timeout: 300
+    body: "{{ { 'data_view': kibana.spaces[space_name].data_views[item.name] | combine({'name' : item.name }) } | combine({'refresh_fields' : true }) }}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ dv_resources_to_update }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all

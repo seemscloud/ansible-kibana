@@ -1,0 +1,32 @@
+---
+- debug:
+    msg: "{{ kibana_endpoint }}"
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- debug:
+    msg: "{{ elastic_endpoint }}"
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all

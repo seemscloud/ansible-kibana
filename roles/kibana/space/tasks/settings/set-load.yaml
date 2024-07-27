@@ -1,0 +1,28 @@
+---
+- name: "SETTINGS: LOAD: Setup Empty Object (Space: {{ space_name }})"
+  set_fact:
+    resources_data: { }
+  tags:
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETTINGS: LOAD: Parse Settings (Space: {{ space_name }})"
+  set_fact:
+    resources_data: "{{ item | default([]) }}"
+  when: kibana.spaces[space_name].settings | length > 0
+  with_items:
+    - "{{ kibana.spaces[space_name].settings }}"
+  tags:
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "SETTINGS: LOAD: DEBUG: Parsed Settings (Space: {{ space_name }})"
+  debug:
+    msg: "{{ resources_data }}"
+  tags:
+    - kibana-settings-debug
+    - kibana-debug-all

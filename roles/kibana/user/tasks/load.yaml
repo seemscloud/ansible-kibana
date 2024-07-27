@@ -1,0 +1,43 @@
+---
+- name: "LOAD: Load Definitions"
+  include_vars:
+    file: "{{ resource_definitions_path }}"
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: DEBUG: Load Definitions"
+  debug:
+    msg: "{{ kibana.users }}"
+  when: kibana.users is defined
+  tags:
+    - kibana-users-debug
+    - kibana-debug-all
+
+- name: "LOAD: Setup Empty Array"
+  set_fact:
+    resources_names: [ ]
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: Parse Names"
+  set_fact:
+    resources_names: "{{ kibana.users.keys() | default([]) }}"
+  when: kibana.users | length > 0
+  tags:
+    - kibana-users-run
+    - kibana-users-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: DEBUG: Parse Names"
+  debug:
+    msg: "{{ resources_names }}"
+  tags:
+    - kibana-users-debug
+    - kibana-debug-all

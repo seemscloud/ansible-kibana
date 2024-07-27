@@ -1,0 +1,21 @@
+---
+- name: "CREATE: Request"
+  register: created_resources
+  uri:
+    method: POST
+    url: "{{ kibana_endpoint }}/api/spaces/space"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    body: "{{ kibana.spaces[item].space | combine({'id': item}) }}"
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+      kbn-xsrf: true
+  with_items:
+    - "{{ resources_to_create }}"
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-run-all
+    - kibana-debug-all

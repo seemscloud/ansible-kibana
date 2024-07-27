@@ -1,0 +1,51 @@
+---
+- name: "LOAD: Load Definitions"
+  include_vars:
+    file: "{{ resource_definitions_path }}"
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: DEBUG: Load Definitions"
+  debug:
+    msg: "{{ kibana.agent_policies }}"
+  when: kibana.agent_policies is defined
+  tags:
+    - kibana-integrations-debug
+    - kibana-agent-policies-debug
+    - kibana-debug-all
+
+- name: "LOAD: Setup Empty Array"
+  set_fact:
+    resources_names: [ ]
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: Parse Names"
+  set_fact:
+    resources_names: "{{ kibana.agent_policies.keys() | default([]) }}"
+  when: kibana.agent_policies | length > 0
+  tags:
+    - kibana-integrations-run
+    - kibana-integrations-debug
+    - kibana-agent-policies-run
+    - kibana-agent-policies-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "LOAD: DEBUG: Parse Names"
+  debug:
+    msg: "{{ resources_names }}"
+  tags:
+    - kibana-integrations-debug
+    - kibana-agent-policies-debug
+    - kibana-debug-all

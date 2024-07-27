@@ -1,0 +1,67 @@
+---
+- name: "GET: Request"
+  register: fetched_resources
+  uri:
+    method: GET
+    url: "{{ kibana_endpoint }}/api/spaces/space"
+    status_code: [ 200 ]
+    body_format: json
+    return_content: no
+    validate_certs: no
+    headers:
+      Authorization: "ApiKey {{ kibana_details.api_key }}"
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "GET: DEBUG: Request"
+  debug:
+    msg: "{{ fetched_resources.json }}"
+  when: fetched_resources.json is defined
+  tags:
+    - kibana-spaces-debug
+    - kibana-data-views-debug
+    - kibana-settings-debug
+    - kibana-debug-all
+
+- name: "GET: Setup Empty Array"
+  set_fact:
+    fetched_resources_names: [ ]
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "GET: Parse Names"
+  set_fact:
+    fetched_resources_names: "{{ fetched_resources_names + [item.id] | default([])}}"
+  with_items: "{{ fetched_resources.json }}"
+  tags:
+    - kibana-spaces-run
+    - kibana-spaces-debug
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-settings-run
+    - kibana-settings-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "GET: DEBUG: Parse Names"
+  debug:
+    msg: "{{ fetched_resources_names }}"
+  tags:
+    - kibana-spaces-debug
+    - kibana-data-views-debug
+    - kibana-settings-debug
+    - kibana-debug-all

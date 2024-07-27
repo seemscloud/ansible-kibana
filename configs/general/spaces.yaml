@@ -1,0 +1,24 @@
+kibana:
+  spaces:
+    default:
+      space:
+        name: Default
+        description: "Default"
+        initials: D
+        color: "#000000"
+        disabledFeatures: [ "siem", "securitySolutionCases", "enterpriseSearch", "monitoring",
+                            "fleetv2", "stackAlerts", "generalCases", "actions", "fleet", "osquery",
+                            "savedObjectsManagement", "ml", "dev_tools" ]
+        imageUrl: ''
+      settings:
+        "doc_table:highlight": false
+        hideAnnouncements: null
+      data_views:
+        logs:
+          timeFieldName: "@timestamp"
+          typeMeta: { }
+          title: "logs-*"
+        trash:
+          timeFieldName: "@timestamp"
+          typeMeta: { }
+          title: "logs-*-trash"

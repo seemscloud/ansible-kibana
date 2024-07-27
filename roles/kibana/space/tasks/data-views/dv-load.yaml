@@ -1,0 +1,28 @@
+---
+- name: "DATA VIEWS: LOAD: Setup Empty Array (Space: {{ space_name }})"
+  set_fact:
+    resources_names: [ ]
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: LOAD: Parse Names (Space: {{ space_name }})"
+  set_fact:
+    resources_names: "{{ item.keys() | default([]) }}"
+  when: kibana.spaces[space_name].data_views | length > 0
+  with_items:
+    - "{{ kibana.spaces[space_name].data_views }}"
+  tags:
+    - kibana-data-views-run
+    - kibana-data-views-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "DATA VIEWS: LOAD: DEBUG: Parse Names (Space: {{ space_name }})"
+  debug:
+    msg: "{{ resources_names }}"
+  tags:
+    - kibana-data-views-debug
+    - kibana-debug-all

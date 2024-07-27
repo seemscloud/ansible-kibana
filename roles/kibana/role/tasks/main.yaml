@@ -1,0 +1,47 @@
+- name: "Load Local Resource"
+  include_tasks: load.yaml
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Get Remote Resources"
+  include_tasks: get.yaml
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Setup Resources"
+  include_tasks: setup.yaml
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Delete Resources"
+  include_tasks: delete.yaml
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Create Resources"
+  include_tasks: create.yaml
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
+
+- name: "Update Resources"
+  include_tasks: update.yaml
+  tags:
+    - kibana-roles-run
+    - kibana-roles-debug
+    - kibana-run-all
+    - kibana-debug-all
