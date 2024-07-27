@@ -3,4 +3,4 @@ all:
     ansible_connection: local
     ansible_python_interpreter: python3
   hosts:
-    general: {}
+    generic: {}
