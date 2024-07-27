@@ -1,4 +1,4 @@
-config_env: general
+config_env: generic
 
 elastic_details:
   proto: https

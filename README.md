@@ -36,43 +36,7 @@
 ### Onprem Prod
 
 ```bash
-ansible-playbook playbooks/onprem-prod.yaml \
-  --ask-vault-pass \
-  --inventory inventories/hosts.yaml \
-  --tags kibana-run-all
-```
-
-### Onprem Test
-
-```bash
-ansible-playbook playbooks/onprem-test.yaml \
-  --ask-vault-pass \
-  --inventory inventories/hosts.yaml \
-  --tags kibana-run-all
-```
-
-### GCP Prod
-
-```bash
-ansible-playbook playbooks/gcp-prod.yaml \
-  --ask-vault-pass \
-  --inventory inventories/hosts.yaml \
-  --tags kibana-run-all
-```
-
-### GCP Test
-
-```bash
-ansible-playbook playbooks/gcp-test.yaml \
-  --ask-vault-pass \
-  --inventory inventories/hosts.yaml \
-  --tags kibana-run-all
-```
-
-### Azure Prod
-
-```bash
-ansible-playbook playbooks/azure-prod.yaml \
+ansible-playbook playbooks/generi.yaml \
   --ask-vault-pass \
   --inventory inventories/hosts.yaml \
   --tags kibana-run-all
